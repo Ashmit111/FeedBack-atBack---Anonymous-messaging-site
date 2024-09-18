@@ -101,10 +101,10 @@ export default function SignUpForm() {
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-black">
             Join True Feedback
           </h1>
-          <p className="mb-4">Sign up to start your anonymous adventure</p>
+          <p className="mb-4  text-black">Sign up to start your anonymous adventure</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -113,8 +113,8 @@ export default function SignUpForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <Input
+                  <FormLabel className=' text-black'>Username</FormLabel>
+                  <Input className=' text-black'
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -142,9 +142,9 @@ export default function SignUpForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className=' text-black'>Email</FormLabel>
                   <Input {...field} name="email" />
-                  <p className='text-muted text-gray-400 text-sm'>We will send you a verification code</p>
+                  <p className='  text-black text-sm'>We will send you a verification code</p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -155,7 +155,7 @@ export default function SignUpForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className=' text-black'>Password</FormLabel>
                   <Input type="password" {...field} name="password" />
                   <FormMessage />
                 </FormItem>
@@ -164,7 +164,7 @@ export default function SignUpForm() {
             <Button type="submit" className='w-full' disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin  text-black"  />
                   Please wait
                 </>
               ) : (
@@ -174,7 +174,7 @@ export default function SignUpForm() {
           </form>
         </Form>
         <div className="text-center mt-4">
-          <p>
+          <p className=' text-black'>
             Already a member?{' '}
             <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
               Sign in
