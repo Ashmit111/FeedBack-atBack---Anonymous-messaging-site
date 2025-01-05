@@ -55,6 +55,11 @@ export default function SignInForm() {
 
     if (result?.url) {
       router.replace('/dashboard');
+      toast({
+        title: 'Great',
+        description: result.status ,
+        variant: 'destructive',
+      });
     }
   };
 
@@ -75,7 +80,7 @@ export default function SignInForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className=' text-black'>Email/Username</FormLabel>
-                  <Input {...field} />
+                  <Input {...field} className='text-black'/>
                   <FormMessage />
                 </FormItem>
               )}
@@ -86,7 +91,7 @@ export default function SignInForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className=' text-black'>Password</FormLabel>
-                  <Input type="password" {...field} />
+                  <Input type="password" {...field} className='text-black'/>
                   <FormMessage />
                 </FormItem>
               )}
