@@ -56,9 +56,8 @@ export default function SignInForm() {
     if (result?.url) {
       router.replace('/dashboard');
       toast({
-        title: 'Great',
-        description: result.status ,
-        variant: 'destructive',
+        title: 'Login Successful',
+        description: result.status , 
       });
     }
   };
