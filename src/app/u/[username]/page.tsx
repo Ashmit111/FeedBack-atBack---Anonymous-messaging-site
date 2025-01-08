@@ -27,32 +27,66 @@ const usermessage = () => {
   const [messagestatus, setMessagestatus] = useState<boolean>(false);
   const username = params.username;
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const onSubmit = async (data:any) => {
+  const { toast } = useToast(); 
 
-  }
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
   })
 
-  const fetchAcceptMessages = async () =>{
+  // const fetchAcceptMessages = async () =>{
+  //   try {
+  //     const response = await axios.get<ApiResponse>('/api/accept-messages');
+  //     const status = response.data.isAcceptingMessage;
+  //     setMessagestatus(status ?? false);
+  //   } catch (error) {
+  //     const axiosError = error as AxiosError<ApiResponse>;
+  //       toast({
+  //         title: 'Error',
+  //         description:
+  //         axiosError.response?.data.message ??
+  //         'Failed to fetch message status',
+  //         variant: 'destructive',
+  //       });
+  //   }
+  // }
+
+  const sendMessage = async () => {
     try {
-      const response = await axios.get<ApiResponse>('/api/accept-messages');
-      const status = response.data.isAcceptingMessage;
-      setMessagestatus(status ?? false);
+      if (messagestatus) {
+        const response = await axios.post('/api/send-messages');
+
+      }
     } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-        toast({
-          title: 'Error',
-          description:
-          axiosError.response?.data.message ??
-          'Failed to fetch message status',
-          variant: 'destructive',
-        });
+      
     }
   }
+
+  const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post<ApiResponse>('/api/send-message',{
+        ...data,
+        username
+      });
+      toast({
+        title: response.data.message,
+        variant: 'default',
+      });
+      form.reset({ ...form.getValues(), content: '' });
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: 'Error',
+        description:
+          axiosError.response?.data.message ?? 'Failed to sent message',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    fetchAcceptMessages();
+    // fetchAcceptMessages();
   }, [])
   
 
