@@ -22,6 +22,7 @@ import { ApiResponse } from '@/types/ApiResponse';
 import { AxiosError } from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from '@/components/ui/separator';
+import Link from 'next/link';
 
 const usermessage = () => {
   const params = useParams<{ username: string }>();
@@ -136,8 +137,10 @@ const usermessage = () => {
       <Separator className='mt-5' /> 
       <div className='flex flex-col justify-center items-center'>
         <h2 className='font-bold mt-4'>Get you Message Board</h2>
-        <Button className='mt-3'>Create Your Account</Button>
-      </div>
+        <Link href="/sign-up">
+          <Button className='mt-3'>Create Your Account</Button>
+        </Link>
+        </div>
     </div>
   )
 }
