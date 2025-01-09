@@ -33,46 +33,48 @@ const usermessage = () => {
     resolver: zodResolver(messageSchema),
   })
 
-  // const fetchAcceptMessages = async () =>{
-  //   try {
-  //     const response = await axios.get<ApiResponse>('/api/accept-messages');
-  //     const status = response.data.isAcceptingMessage;
-  //     setMessagestatus(status ?? false);
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<ApiResponse>;
-  //       toast({
-  //         title: 'Error',
-  //         description:
-  //         axiosError.response?.data.message ??
-  //         'Failed to fetch message status',
-  //         variant: 'destructive',
-  //       });
-  //   }
-  // }
-
-  const sendMessage = async () => {
+  const fetchAcceptMessages = async () =>{
     try {
-      if (messagestatus) {
-        const response = await axios.post('/api/send-messages');
-
-      }
+      const response = await axios.get<ApiResponse>('/api/accept-messages');
+      console.log(response.data)
+      const status = response.data.isAcceptingMessages;
+      console.log(status)
+      setMessagestatus(status ?? false);
     } catch (error) {
-      
+      const axiosError = error as AxiosError<ApiResponse>;
+        toast({
+          title: 'Error',
+          description:
+          axiosError.response?.data.message ??
+          'Failed to fetch message status',
+          variant: 'destructive',
+        });
     }
   }
-
+ 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
+    console.log(messagestatus)
     try {
-      const response = await axios.post<ApiResponse>('/api/send-message',{
-        ...data,
-        username
-      });
-      toast({
-        title: response.data.message,
-        variant: 'default',
-      });
-      form.reset({ ...form.getValues(), content: '' });
+      if (messagestatus) {
+        console.log(messagestatus)
+        const response = await axios.post<ApiResponse>('/api/send-message',{
+          ...data,
+          username
+        });
+        toast({
+          title: response.data.message,
+          variant: 'default',
+        });
+        form.reset({ ...form.getValues(), content: '' });
+      }
+      else{
+        toast({
+          title: 'Error',
+          description: 'User is not accepting message',
+          variant: 'destructive',
+        });
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -86,7 +88,7 @@ const usermessage = () => {
     }
   };
   useEffect(() => {
-    // fetchAcceptMessages();
+    fetchAcceptMessages();
   }, [])
   
 
