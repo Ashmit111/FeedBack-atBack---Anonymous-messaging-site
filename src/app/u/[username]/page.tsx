@@ -21,6 +21,7 @@ import axios from 'axios';
 import { ApiResponse } from '@/types/ApiResponse';
 import { AxiosError } from 'axios';
 import { useToast } from '@/components/ui/use-toast';
+import { Separator } from '@/components/ui/separator';
 
 const usermessage = () => {
   const params = useParams<{ username: string }>();
@@ -131,6 +132,12 @@ const usermessage = () => {
           </div>
         </form>
       </Form>
+      <Button className='mt-9'>Suggest Messages</Button>
+      <Separator className='mt-5' /> 
+      <div className='flex flex-col justify-center items-center'>
+        <h2 className='font-bold mt-4'>Get you Message Board</h2>
+        <Button className='mt-3'>Create Your Account</Button>
+      </div>
     </div>
   )
 }
