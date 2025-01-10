@@ -8,7 +8,7 @@ export async function POST(request: Request) {
 
   try {
     const user = await UserModel.findOne({ username }).exec();
-
+    console.log(user);
     if (!user) {
       return Response.json(
         { message: 'User not found', success: false },
@@ -17,7 +17,11 @@ export async function POST(request: Request) {
     }
 
     // Check if the user is accepting messages
-    if (!user.isAcceptingMessages) {
+    console.log(user.isAcceptingMessages, typeof user.isAcceptingMessages);
+    const status = user.isAcceptingMessages
+    if (status === false) {
+
+      console.log("ok")
       return Response.json(
         { message: 'User is not accepting messages', success: false },
         { status: 403 } // 403 Forbidden status
