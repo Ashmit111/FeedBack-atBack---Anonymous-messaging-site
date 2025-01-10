@@ -56,10 +56,10 @@ const usermessage = () => {
  
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
-    console.log(messagestatus)
+    // console.log(messagestatus)
     try {
-      if (messagestatus) {
-        console.log(messagestatus)
+      // if (messagestatus) {
+      //   console.log(messagestatus)
         const response = await axios.post<ApiResponse>('/api/send-message',{
           ...data,
           username
@@ -69,14 +69,14 @@ const usermessage = () => {
           variant: 'default',
         });
         form.reset({ ...form.getValues(), content: '' });
-      }
-      else{
+      // }
+      // else{
         toast({
           title: 'Error',
           description: 'User is not accepting message',
           variant: 'destructive',
         });
-      }
+      // }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -90,7 +90,7 @@ const usermessage = () => {
     }
   };
   useEffect(() => {
-    fetchAcceptMessages();
+    // fetchAcceptMessages();
   }, [])
   
 
