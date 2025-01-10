@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       { isAcceptingMessages: acceptMessages },
       { new: true }
     );
-
+    console.log(updatedUser)
     if (!updatedUser) {
       // User not found
       return Response.json(
