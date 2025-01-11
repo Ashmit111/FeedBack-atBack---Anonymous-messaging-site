@@ -7,15 +7,7 @@ const UsernameQuerySchema = z.object({
   username: usernameValidation,
 });
 
-export async function GET(request: Request) {
-    // if(request.method !== 'GET'){
-    //     return Response.json(
-    //         {
-    //           success: false,
-    //           message: 'Method not allowed',
-    //         },
-    //         { status: 405 })
-    // }
+export async function GET(request: Request) { 
   await dbConnect();
 
   try {
