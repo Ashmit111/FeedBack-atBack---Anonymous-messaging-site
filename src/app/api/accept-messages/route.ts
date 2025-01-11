@@ -58,13 +58,14 @@ export async function POST(request: Request) {
 }
 
 
-export async function GET(_request: Request) {
+export async function GET(request: Request) {
   // Connect to the database
   await dbConnect();
 
   // Get the user session
   const session = await getServerSession(authOptions);
   const user = session?.user;
+  console.log(request)
 
   // Check if the user is authenticated
   if (!session || !user) {
