@@ -25,7 +25,7 @@ import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
-const usermessage = () => {
+const Usermessage = () => {
   const params = useParams<{ username: string }>(); 
   const username = params.username;
   const [isLoading, setIsLoading] = useState(false);
@@ -146,4 +146,4 @@ const usermessage = () => {
   )
 }
 
-export default usermessage
+export default Usermessage
