@@ -25,41 +25,18 @@ import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 
 const usermessage = () => {
-  const params = useParams<{ username: string }>();
-  const [messagestatus, setMessagestatus] = useState<boolean>(false);
+  const params = useParams<{ username: string }>(); 
   const username = params.username;
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast(); 
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
-  })
+  }) 
 
-  const fetchAcceptMessages = async () =>{
-    try {
-      const response = await axios.get<ApiResponse>('/api/accept-messages');
-      console.log(response.data)
-      const status = response.data.isAcceptingMessages;
-      console.log(status)
-      setMessagestatus(status ?? false);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-        toast({
-          title: 'Error',
-          description:
-          axiosError.response?.data.message ??
-          'Failed to fetch message status',
-          variant: 'destructive',
-        });
-    }
-  }
- 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
-    setIsLoading(true);
-    // console.log(messagestatus)
-    try {
-      // if (messagestatus) {
-      //   console.log(messagestatus)
+    setIsLoading(true); 
+    try { 
         const response = await axios.post<ApiResponse>('/api/send-message',{
           ...data,
           username
@@ -68,15 +45,7 @@ const usermessage = () => {
           title: response.data.message,
           variant: 'default',
         });
-        form.reset({ ...form.getValues(), content: '' });
-      // }
-      // else{
-        toast({
-          title: 'Error',
-          description: 'User is not accepting message',
-          variant: 'destructive',
-        });
-      // }
+        form.reset({ ...form.getValues(), content: '' }); 
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
