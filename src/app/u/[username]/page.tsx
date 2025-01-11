@@ -23,11 +23,14 @@ import { AxiosError } from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 const usermessage = () => {
   const params = useParams<{ username: string }>(); 
   const username = params.username;
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const { toast } = useToast(); 
 
   const form = useForm<z.infer<typeof messageSchema>>({
@@ -58,10 +61,19 @@ const usermessage = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    // fetchAcceptMessages();
-  }, [])
-  
+
+  const fetchSuggestions = async () => {
+    setLoading(true);
+    const response = await axios.post('/api/suggest-messages')
+    console.log(response.data.response)
+    const result = response.data.response;
+    setSuggestions(result.split('||')); 
+    setLoading(false);
+  }
+
+  const handleCopyToTextarea = async (text: string) => {
+    form.setValue('content', text); 
+  } 
 
   const messageContent = form.watch('content');
   return (
@@ -79,6 +91,7 @@ const usermessage = () => {
                 <FormLabel>Send Anonymous Message to @{username}</FormLabel>
                 <FormControl>
                   <Textarea
+                    id='text-area'
                     placeholder="Write your anonymous message here"
                     className="resize-none"
                     {...field}
@@ -102,7 +115,26 @@ const usermessage = () => {
           </div>
         </form>
       </Form>
-      <Button className='mt-9'>Suggest Messages</Button>
+      <Button className='mt-9' onClick={fetchSuggestions}>Suggest Messages</Button>
+      <p className='text-black font-semibold text-xl text-center my-5'>Click on any message below to select it.</p>      
+      <Card>
+      <CardHeader>
+        <h3 className="text-xl font-semibold">Messages</h3>
+      </CardHeader>
+      <CardContent className="flex flex-col space-y-4">
+        {loading ? ( 
+            <div className='flex justify-center'>
+              <Loader2 className="mr-2 h-10 w-10 animate-spin" />
+            </div> 
+        ) : (
+          suggestions.map((suggestion, index) => (
+            <Button key={index} variant="outline" className="mb-2" onClick={() => handleCopyToTextarea(suggestion)}>
+              {suggestion}
+            </Button>
+          ))
+        )}
+      </CardContent> 
+    </Card>     
       <Separator className='mt-5' /> 
       <div className='flex flex-col justify-center items-center'>
         <h2 className='font-bold mt-4'>Get you Message Board</h2>
