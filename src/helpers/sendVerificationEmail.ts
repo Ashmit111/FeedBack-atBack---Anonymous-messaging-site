@@ -6,20 +6,26 @@ export async function sendVerificationEmail(
     username: string,
     verifyCode: string
 ): Promise<ApiResponse> {
+    if (typeof window === "undefined") {
+        return {
+            success: false,
+            message: "Email sending is only supported on the client-side.",
+        };
+    }
+
     try {
-        // Prepare the email template variables
         const templateParams = {
             to_email: email,
             username: username,
             otp: verifyCode,
         };
 
-        // Send the email using EmailJS
+        // Send the email using EmailJS with provided service, template, and public key
         const response = await emailjs.send(
-            'service_97368wp',  // Replace with your EmailJS service ID
-            'template_5h9sq39',  // Replace with your EmailJS template ID
+            'service_97368wp',  // EmailJS service ID
+            'template_5h9sq39',  // EmailJS template ID
             templateParams,
-            'sjhWYCaqHvchcm5EZ'   // Replace with your EmailJS public key
+            'sjhWYCaqHvchcm5EZ'   // EmailJS public key
         );
 
         if (response.status === 200) {
