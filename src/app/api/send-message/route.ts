@@ -14,10 +14,7 @@ export async function POST(request: Request) {
         { message: 'User not found', success: false },
         { status: 404 }
       );
-    }
-
-    // Check if the user is accepting messages
-    console.log(user.isAcceptingMessages, typeof user.isAcceptingMessages);
+    } 
     const status = user.isAcceptingMessages
     if (status === false) { 
       return Response.json(
