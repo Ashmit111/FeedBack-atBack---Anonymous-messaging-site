@@ -1,29 +1,40 @@
-import { resend } from "@/lib/resend";
-import VerificationEmail from "../../emails/VerificationEmail"
+import emailjs from '@emailjs/browser';
 import { ApiResponse } from "@/types/ApiResponse";
 
 export async function sendVerificationEmail(
     email: string,
     username: string,
     verifyCode: string
-): Promise<ApiResponse>{
+): Promise<ApiResponse> {
     try {
-        await resend.emails.send({
-            from: 'Acme <onboarding@resend.dev>',
-            to: email,
-            subject: 'Mysetry | Verification Code',
-            react: VerificationEmail({username,otp: verifyCode}),
-          });
-      
-        return {
-            success: true,
-            message: "Verification email sent successfully"
-        } 
+        // Prepare the email template variables
+        const templateParams = {
+            to_email: email,
+            username: username,
+            otp: verifyCode,
+        };
+
+        // Send the email using EmailJS
+        const response = await emailjs.send(
+            'service_97368wp',  // Replace with your EmailJS service ID
+            'template_5h9sq39',  // Replace with your EmailJS template ID
+            templateParams,
+            'sjhWYCaqHvchcm5EZ'   // Replace with your EmailJS public key
+        );
+
+        if (response.status === 200) {
+            return {
+                success: true,
+                message: "Verification email sent successfully",
+            };
+        } else {
+            throw new Error('Failed to send email');
+        }
     } catch (emailError) {
-        console.error("Error sending verification email",emailError)
+        console.error("Error sending verification email", emailError);
         return {
             success: false,
-            message: "Fail to send verification email"
-        }
+            message: "Failed to send verification email",
+        };
     }
 }
