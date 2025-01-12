@@ -121,14 +121,14 @@ const Usermessage = () => {
       <CardHeader>
         <h3 className="text-xl font-semibold">Messages</h3>
       </CardHeader>
-      <CardContent className="flex flex-col space-y-4">
+      <CardContent className="flex flex-col space-y-4 ">
         {loading ? ( 
             <div className='flex justify-center'>
               <Loader2 className="mr-2 h-10 w-10 animate-spin" />
             </div> 
         ) : (
           suggestions.map((suggestion, index) => (
-            <Button key={index} variant="outline" className="mb-2" onClick={() => handleCopyToTextarea(suggestion)}>
+            <Button key={index} variant="outline" className="w-full sm:w-auto break-words whitespace-normal text-left mb-2 p-3 h-auto" onClick={() => handleCopyToTextarea(suggestion)}>
               {suggestion}
             </Button>
           ))
