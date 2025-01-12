@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebounce } from "@uidotdev/usehooks";
 import * as z from 'zod';
+import { sendVerificationEmail } from '@/helpers/sendVerificationEmail';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -70,6 +71,12 @@ export default function SignUpForm() {
     try {
       const response = await axios.post<ApiResponse>('/api/sign-up', data);
 
+      if (response.data.success) {
+        const verifyCode = response.data.verifyCode;
+        if (verifyCode) {
+          await sendVerificationEmail(data.email, data.username, verifyCode);
+        }
+      } 
       toast({
         title: 'Success',
         description: response.data.message,
