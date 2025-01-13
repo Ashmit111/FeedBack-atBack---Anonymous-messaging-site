@@ -128,7 +128,8 @@ const Usermessage = () => {
             </div> 
         ) : (
           suggestions.map((suggestion, index) => (
-            <Button key={index} variant="outline" className="w-full sm:w-auto break-words whitespace-normal text-left mb-2 p-3 h-auto" onClick={() => handleCopyToTextarea(suggestion)}>
+            <Button key={index} variant="outline" className="w-full sm:w-auto break-words whitespace-normal text-left mb-2 p-3 h-auto" 
+            onClick={() => handleCopyToTextarea(suggestion)}>
               {suggestion}
             </Button>
           ))
